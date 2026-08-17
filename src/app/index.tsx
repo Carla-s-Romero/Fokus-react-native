@@ -1,8 +1,8 @@
 import { StyleSheet, View, Image } from "react-native";
-import pomodoro from './ultis/pomodoro'
-import { TextFooter } from './components/Footer'
-import { ActionsButtons } from './components/ActionsButtons/index'
-import { ImageApp } from "./components/Image";
+import pomodoro from '../ultis/pomodoro';
+import { TextFooter } from '../components/Footer'
+import { ActionsButtons } from '../components/ActionsButtons/index'
+import { ImageApp } from "../components/Image";
 import { useState } from "react";
 
 export default function Index() {
