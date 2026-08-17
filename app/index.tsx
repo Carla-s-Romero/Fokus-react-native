@@ -1,31 +1,34 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { Timer } from "./Timer"
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import pomodoro from './pomodoro'
+
 
 export default function Index() {
+  const [timerType, setTimerType] = useState(pomodoro[0])
+
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/logo.png")}
+        style={styles.imagesTimer}
+        source={timerType.image}
       />
 
       <View style={styles.actions}>
           <View style={styles.buttonsActions}>
-               <Pressable onPress={() => console.log("Foco")}>
-                  <Text style={styles.buttonText}>Foco</Text>
+              {pomodoro.map (p => (
+               <Pressable         
+                    key={p.id}          
+                    style={timerType.id === p.id ? styles.contextButtonAtive : null} 
+                    onPress={() => setTimerType(p)}
+                  >
+                    <Text style={styles.buttonText}>{p.display}</Text>
                 </Pressable>
-
-                <Pressable onPress={() => console.log("Pausa curta")}>
-                  <Text style={styles.buttonText}>Pausa curta</Text>
-                </Pressable>
-
-                <Pressable onPress={() => console.log("Pausa longa")}>
-                  <Text style={styles.buttonText}>Pausa longa</Text>
-                </Pressable>
+              ))}
           </View>
 
-          <View className="Time">
-              <Text style={styles.countTime}>25:00</Text>
-          </View>
+          <Timer totalSeconds={timerType.initialValue * 60} />
 
           <View>
               <Pressable style={styles.startTimerButton}>
@@ -67,14 +70,19 @@ const styles = StyleSheet.create({
   },
   buttonsActions: {
     flexDirection: "row",
-    justifyContent: "center",
-    gap: 16,
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   buttonText: {
     color: "#fff",
     textAlign: "center",
     fontSize: 12.5,
-    gap: 8,
+    padding: 8,
+  },
+  contextButtonAtive:{
+    backgroundColor: "#144480",
+    borderRadius: 10,
+    padding: 4
   },
   countTime: {
     color: "#fff",
@@ -104,5 +112,9 @@ const styles = StyleSheet.create({
     color: "#98A0A8",
     textAlign: "center",
     fontSize: 12.5
+  },
+  imagesTimer: {
+    width: "100%",
+    height: "50%",
   }
 });
