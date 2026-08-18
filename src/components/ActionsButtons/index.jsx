@@ -2,26 +2,46 @@ import { StyleSheet, View, Pressable, Text } from "react-native";
 import pomodoro from "../../ultis/pomodoro";
 import { Timer } from "../CountTimer/index";
 import { StartButton } from "../StartButton";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export const ActionsButtons = ({ timerType, setTimerType }) => {
 
+  const [timerRunning, setTimerRunning] = useState(false)
+  const [seconds, setSeconds] = useState(pomodoro[0].initialValue)
+
   const timeRef = useRef(null)
 
+  const clear = () => {
+    if (timeRef.current != null) {
+      clearInterval(timeRef.current)
+        timeRef.current = null
+        setTimerRunning(false)
+    }
+  }
+
   const toggleTimerType = (newTimerTyper) => {
-    setTimerType(newTimerTyper)
+      setTimerType(newTimerTyper)
+      setSeconds(newTimerTyper.initialValue)
+      clear()
   }
 
   const toggleTimer = () => {
     if (timeRef.current) {
-      clearInterval(timeRef.current)
+      clear()
       return
     }
-
+    setTimerRunning(true)
     const id = setInterval(() => {
+      setSeconds(oldState => {
+        if (oldState === 0) {
+          clear()
+          return 0
+        }
+
+        return oldState - 1
+      })
       console.log('time rolando')
     }, 100)
-
     timeRef.current = id 
   }
 
@@ -32,16 +52,16 @@ export const ActionsButtons = ({ timerType, setTimerType }) => {
           <Pressable
             key={p.id}
             style={timerType.id === p.id ? styles.contextButtonAtive : null}
-            onPress={() => setTimerType(p)}
+            onPress={() => toggleTimerType(p)}
           >
             <Text style={styles.buttonText}>{p.display}</Text>
           </Pressable>
         ))}
       </View>
 
-      <Timer totalSeconds={timerType.initialValue * 60} />
+      <Timer totalSeconds={seconds * 60} />
       <StartButton 
-        title={ timeRef.current ? 'Pausar' : 'Começar' }
+        title={ timerRunning ? 'Pausar' : 'Começar' }
         onPress={toggleTimer}/>
     </View>
   );
