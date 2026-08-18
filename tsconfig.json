@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "src/app/index.jsx", "src/components/CountTimer/index.Jsx", "src/components/Footer/index.jsx", "src/components/StartButton/index.jsx", "src/components/ActionsButtons/index.jsx", "src/components/StartButton/index.jsx"  ]
 }

@@ -2,8 +2,29 @@ import { StyleSheet, View, Pressable, Text } from "react-native";
 import pomodoro from "../../ultis/pomodoro";
 import { Timer } from "../CountTimer/index";
 import { StartButton } from "../StartButton";
+import { useRef } from "react";
 
 export const ActionsButtons = ({ timerType, setTimerType }) => {
+
+  const timeRef = useRef(null)
+
+  const toggleTimerType = (newTimerTyper) => {
+    setTimerType(newTimerTyper)
+  }
+
+  const toggleTimer = () => {
+    if (timeRef.current) {
+      clearInterval(timeRef.current)
+      return
+    }
+
+    const id = setInterval(() => {
+      console.log('time rolando')
+    }, 100)
+
+    timeRef.current = id 
+  }
+
   return (
     <View style={styles.actions}>
       <View style={styles.buttonsActions}>
@@ -19,7 +40,9 @@ export const ActionsButtons = ({ timerType, setTimerType }) => {
       </View>
 
       <Timer totalSeconds={timerType.initialValue * 60} />
-      <StartButton />
+      <StartButton 
+        title={ timeRef.current ? 'Pausar' : 'Começar' }
+        onPress={toggleTimer}/>
     </View>
   );
 };
