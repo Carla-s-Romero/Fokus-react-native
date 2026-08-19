@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export const StartButton = ({onPress, title}) => {
+export const StartButton = ({onPress, title, timerRunning}) => {
   return (
     <View>
       <Pressable style={styles.startTimerButton} onPress={onPress} >
-        <Ionicons name="play" size={22} color="#000" />
+        <Ionicons 
+          name={timerRunning ? "pause" : "play"}
+          size={24}
+          color="#000"
+          />
         <Text style={styles.startTimerText}>{title}</Text>
       </Pressable>
     </View>

@@ -62,6 +62,7 @@ export const ActionsButtons = ({ timerType, setTimerType }) => {
       <Timer totalSeconds={seconds * 60} />
       <StartButton 
         title={ timerRunning ? 'Pausar' : 'Começar' }
+        timerRunning={timerRunning}
         onPress={toggleTimer}/>
     </View>
   );
